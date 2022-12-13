@@ -9,7 +9,7 @@ tasks:
     cd webring
     ./run.sh
 - package: |
-    cd webring/public
-    tar -cvz . > ../site.tar.gz
+    cd webring
+    tar -C public -cvz . > ../site.tar.gz
 - upload: |
     hut pages publish -d $site site.tar.gz
