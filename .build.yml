@@ -1,0 +1,15 @@
+image: alpine/edge
+oauth: pages.sr.ht/PAGES:RW
+packages:
+- hut
+environment:
+  site: a2.srht.site
+tasks:
+- build: |
+    cd webring
+    ./run.sh
+- package: |
+    cd webring/public
+    tar -cvz . > ../site.tar.gz
+- upload: |
+    hut pages publish -d $site site.tar.gz
