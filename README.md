@@ -18,6 +18,7 @@ This is an attempt to replicate [Devine Lu Linvega](https://wiki.xxiivv.com/site
         2. Add your file to `entries` directory
         3. Add and commit your changes
         4. Send the email using `git send-email --to="~a2/webring@lists.sr.ht" HEAD^`
+    - Issuing a pull request from [GitHub](https://github.com/4bcx/webring)
 4. Add the ring links to your site, preferrably in the footer, for example
     ```html
     <ul>
@@ -29,7 +30,7 @@ This is an attempt to replicate [Devine Lu Linvega](https://wiki.xxiivv.com/site
 
 ## Host your own
 
-1. Clone the project [repository](https://git.sr.ht/~a2/webring), and add your remotes
+1. Clone the project [repository](https://github.com/4bcx/webring), and add your remotes
 2. Run `rm -fr entries/* public` to delete old entries and build artifacts
 3. Add your entries and run `./wr` to check the output
 4. Upload your webring to a static site hosting provider, examples are available for
@@ -38,4 +39,4 @@ This is an attempt to replicate [Devine Lu Linvega](https://wiki.xxiivv.com/site
 
 ## License
 
-This project is licensed under [MIT license](https://git.sr.ht/~a2/webring/blob/main/LICENSE)
+This project is licensed under [MIT license](https://raw.githubusercontent.com/4bcx/webring/main/LICENSE)

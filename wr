@@ -81,8 +81,8 @@ cat << INDEX_PAGE > public/index.html
         </ul>
         <hr />
         <p>This is an attempt to replicate <a href="https://wiki.xxiivv.com/site/devine_lu_linvega.html">Devine Lu Linvega</a>'s <a href="https://webring.xxiivv.com/">webring</a> in a very minimal way, and with a lower technical bar.</p>
-        <p>To add your site to the webring, follow the instructions <a href="https://sr.ht/~a2/webring/#add-your-website-to-this-webring">here</a>. For issues, source code, documentation, visit the <a href="https://sr.ht/~a2/webring/">project page on sourcehut</a></p>
-        <p>This project is licensed under <a href="https://git.sr.ht/~a2/webring/blob/main/LICENSE">MIT license</a></p>
+        <p>To add your site to the webring, follow the instructions <a href="https://github.com/4bcx/webring#add-your-website-to-this-webring">here</a>. For issues, source code, documentation, visit the <a href="https://github.com/4bcx/webring">project page on GitHub</a></p>
+        <p>This project is licensed under <a href="https://raw.githubusercontent.com/4bcx/webring/main/LICENSE">MIT license</a></p>
         <hr />
         <nav>
             <a href="https://wr.4b.cx/wr.4b.cx/previous">&larr; previous</a>
