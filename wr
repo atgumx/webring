@@ -1,28 +1,54 @@
 #!/bin/sh
+# wr - Minimal webring utility
+# Licensed under the MIT License.
+# For more information, please refer to 
+#   <https://raw.githubusercontent.com/4bcx/webring/main/LICENSE>
 
-generate_list() {
-    count=0
-    for entry in $( find ./entries -type f ); do
-        count=$(( count + 1 ))
-        . ${entry}
-        entry_name="$( basename ${entry} )"
-        [ ${count} -eq 1 ] && first_entry="${entry_name}" && prev_entry="${entry_name}"
-        mkdir -p "public/${entry_name}"
-        printf "<html><meta http-equiv=\"Refresh\" content=\"0; url='%s'\" /></html>\n" "${url}" \
-            > "public/${entry_name}/index.html"
-        cp "public/${entry_name}/index.html" "public/${prev_entry}/next.html"
-        cp "public/${prev_entry}/index.html" "public/${entry_name}/previous.html"
-        prev_entry="${entry_name}"
-        [ -n "${author}" ] \
-            && printf '<li><a href="%s">%s</a> by %s</li>\n' "${url}" "${title}" "${author}" \
-            || printf '<li><a href="%s">%s</a></li>\n' "${url}" "${title}"
-        unset url title author
-    done
-    cp "public/${first_entry}/index.html" "public/${entry_name}/next.html"
-    cp "public/${entry_name}/index.html" "public/${first_entry}/previous.html"
+# This script should not be sourced, make sure to change the string 'wr'
+#   in the following line to match this file's name
+[ 'wr' = "$( basename ${0} )" ] || return 1
+
+SCRIPT=$( basename "$0" )
+VMAJOR=0
+VMINOR=1
+VPATCH=0
+HOMEPAGE="https://wr.4b.cx/"
+
+print_help () {
+    cat << HELP_TEXT
+${SCRIPT} v${VMAJOR}.${VMINOR}.${VPATCH}
+Minimal webring utility
+
+Usage:
+  ${SCRIPT} add SITE_URL SITE_TITLE [AUTHOR_NAME]
+    Add a new entry to the webring
+  ${SCRIPT} [build]
+    Build the webring
+  ${SCRIPT} -h | --help | help
+    Display this help message and exit
+  ${SCRIPT} -v | --version | version
+    Display the script version and exit
+
+Project homepage: <${HOMEPAGE}>
+HELP_TEXT
 }
 
-cat << INDEX_PAGE > public/index.html
+print_version () {
+    VERSION="${VMAJOR}.${VMINOR}.${VPATCH}"
+    printf '%s Version %s\n' "${SCRIPT}" "${VERSION}"
+}
+
+print_error () {
+    ERROR_MSG=${1:-Unknown error}
+    printf '%s: %s\n' "${SCRIPT}" "${ERROR_MSG}" >&2
+}
+
+build_webring() {
+    mkdir -p public
+    printf '' > public/index.html
+
+    cat << INDEX_PAGE_TOP > public/index.html
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -78,7 +104,32 @@ cat << INDEX_PAGE > public/index.html
         <h1>webring</h1>
         <hr />
         <ul>
-            $( generate_list )
+INDEX_PAGE_TOP
+
+    #TODO: refactor this
+    count=0
+    for entry in $( find ./entries -type f ); do
+        count=$(( count + 1 ))
+        . ${entry}
+        entry_name="$( basename ${entry} )"
+        [ ${count} -eq 1 ] && first_entry="${entry_name}" && prev_entry="${entry_name}"
+        mkdir -p "public/${entry_name}"
+        printf "<html><meta http-equiv=\"Refresh\" content=\"0; url='%s'\" /></html>\n" "${url}" \
+            > "public/${entry_name}/index.html"
+        cp "public/${entry_name}/index.html" "public/${prev_entry}/next.html"
+        cp "public/${prev_entry}/index.html" "public/${entry_name}/previous.html"
+        prev_entry="${entry_name}"
+        [ -n "${author}" ] \
+            && printf '            <li><a href="%s">%s</a> by %s</li>\n' \
+                "${url}" "${title}" "${author}" >> public/index.html \
+            || printf '            <li><a href="%s">%s</a></li>\n' \
+                "${url}" "${title}" >> public/index.html
+        unset url title author
+    done
+    cp "public/${first_entry}/index.html" "public/${entry_name}/next.html"
+    cp "public/${entry_name}/index.html" "public/${first_entry}/previous.html"
+
+    cat << INDEX_PAGE_BOTTOM >> public/index.html
         </ul>
         <hr />
         <p>This is an attempt to replicate <a href="https://wiki.xxiivv.com/site/devine_lu_linvega.html">Devine Lu Linvega</a>'s <a href="https://webring.xxiivv.com/">webring</a> in a very minimal way, and with a lower technical bar.</p>
@@ -93,4 +144,62 @@ cat << INDEX_PAGE > public/index.html
 </body>
 
 </html>
-INDEX_PAGE
+INDEX_PAGE_BOTTOM
+}
+
+add_entry() {
+    entry="$( basename ${1} )"
+    entry_file="entries/${entry}"
+    mkdir -p $( dirname ${entry_file} )
+
+    printf 'url="%s"\ntitle="%s"' "${1}" "${2}" > "${entry_file}"
+    [ -n "${3}" ] && printf '\nauthor="%s"' "${3}" >> "${entry_file}"
+
+    cat << ENTRY_LINKS
+Add the following links in your website, preferrably in the footer:
+
+    <p>
+        <a href="https://wr.4b.cx/${entry}/previous">&larr; previous</a>
+        &emsp;
+        <a href="https://wr.4b.cx/">webring index</a>
+        &emsp;
+        <a href="https://wr.4b.cx/${entry}/next">next &rarr;</a>
+    </p>
+
+You can style them as you please of course
+ENTRY_LINKS
+}
+
+if [ -z "${1}" ] || [ "${1}" = "build" ]; then
+    printf 'Building the webring..'
+    build_webring
+    printf ' done\n'
+    exit 0
+fi
+
+ENTRY_URL=''
+ENTRY_TITLE=''
+ENTRY_AUTHOR=''
+
+case "${1}" in
+    -h|--help|help)
+        print_help
+        exit 0
+        ;;
+    -v|--version|version)
+        print_version
+        exit 0
+        ;;
+    add)
+        shift
+        add_entry "${1}" "${2}" "${3}"
+        exit 0
+        ;;
+    *)
+        print_error "${1}: Invalid argument"
+        print_help >&2
+        exit 22
+        ;;
+esac
+
+trap "print_error 'Interrupt signal detected, output may be incomplete'" INT
