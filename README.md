@@ -33,8 +33,8 @@ This is an attempt to replicate [Devine Lu Linvega](https://wiki.xxiivv.com/site
 2. Run `rm -fr entries/* public` to delete old entries and build artifacts
 3. Add your entries and run `./wr` to check the output
 4. Upload your webring to a static site hosting provider, examples are available for
-    - GitHub Pages: this instance
-    - GitLab Pages: rename `example.gitlab-ci.yml` to `.gitlab-ci.yml`
+    - GitHub Pages
+    - GitLab Pages
 
 ## License
 
