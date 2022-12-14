@@ -30,7 +30,6 @@ cat << INDEX_PAGE > public/index.html
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta content="text/html; charset=UTF-8" http-equiv="content-type">
     <meta content="width=device-width,initial-scale=1" name="viewport">
-    <link href="data:," rel="icon">
     <title>webring</title>
     <meta content="webring" name="title">
     <meta content="Ahmed M Alaa" name="author">
@@ -71,7 +70,8 @@ cat << INDEX_PAGE > public/index.html
         body { background:white; color:black; font-family:monospace; font-size:16px; line-height:1.4; margin:0; padding:4rem 0; min-height:100%; overflow-wrap:break-word; }
         main { max-width:640px; margin:0 auto; padding:0 2rem; }
         h1 { text-align:center }
-        li { display: list-item; width: 40%; float: left; margin: 0 5%; }
+        li, nav a { width: 40%; float: left; margin: 0 5%; }
+        nav a { display: block; }
         body[theme="dark"] { filter:invert(1); }
         @media (prefers-color-scheme: dark) { body[theme="auto"] { filter:invert(1); } }
     </style>
@@ -80,11 +80,19 @@ cat << INDEX_PAGE > public/index.html
 <body theme="auto">
     <main>
         <h1>webring</h1>
-    <hr />
+        <hr />
         <ul>
             $( generate_list )
         </ul>
-        <h2></h2>
+        <hr />
+        <p>This is an attempt to replicate <a href="https://wiki.xxiivv.com/site/devine_lu_linvega.html">Devine Lu Linvega</a>'s <a href="https://webring.xxiivv.com/">webring</a> in a very minimal way, and with a lower technical bar.</p>
+        <p>To add your site to the webring, follow the instructions <a href="https://sr.ht/~a2/webring/#add-your-website-to-this-webring">here</a>. For issues, source code, documentation, visit the <a href="https://sr.ht/~a2/webring/">project page on sourcehut</a></p>
+        <p>This project is licensed under <a href="https://git.sr.ht/~a2/webring/blob/main/LICENSE">MIT license</a></p>
+        <hr />
+        <nav>
+            <a href="https://a2.srht.site/a2.srht.site/previous">&larr; previous</a>
+            <a href="https://a2.srht.site/a2.srht.site/next">next &rarr;</a>
+        </nav>
     </main>
 </body>
 
