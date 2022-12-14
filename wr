@@ -1,0 +1,92 @@
+#!/bin/sh
+
+generate_list() {
+    count=0
+    for entry in $( find ./entries -type f ); do
+        count=$(( count + 1 ))
+        . ${entry}
+        entry_name="$( basename ${entry} )"
+        [ ${count} -eq 1 ] && first_entry="${entry_name}" && prev_entry="${entry_name}"
+        mkdir -p "public/${entry_name}"
+        printf "<html><meta http-equiv=\"Refresh\" content=\"0; url='%s'\" /></html>\n" "${url}" \
+            > "public/${entry_name}/index.html"
+        cp "public/${entry_name}/index.html" "public/${prev_entry}/next.html"
+        cp "public/${prev_entry}/index.html" "public/${entry_name}/previous.html"
+        prev_entry="${entry_name}"
+        [ -n "${author}" ] \
+            && printf '<li><a href="%s">%s</a> by %s</li>\n' "${url}" "${title}" "${author}" \
+            || printf '<li><a href="%s">%s</a></li>\n' "${url}" "${title}"
+        unset url title author
+    done
+    cp "public/${first_entry}/index.html" "public/${entry_name}/next.html"
+    cp "public/${entry_name}/index.html" "public/${first_entry}/previous.html"
+}
+
+cat << INDEX_PAGE > public/index.html
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="text/html; charset=UTF-8" http-equiv="content-type">
+    <meta content="width=device-width,initial-scale=1" name="viewport">
+    <link href="data:," rel="icon">
+    <title>webring</title>
+    <meta content="webring" name="title">
+    <meta content="Ahmed M Alaa" name="author">
+    <meta content="Minimal webring" name="description">
+    <meta content="website" property="og:type">
+    <meta content="https://wr.4b.cx/" property="og:url">
+    <meta content="webring" property="og:site_name">
+    <meta content="webring" property="og:title">
+    <meta content="Minimal webring" property="og:description">
+    <meta content="https://wr.4b.cx/logo.png" property="og:image">
+    <meta content="summary_large_image" property="twitter:card">
+    <meta content="https://wr.4b.cx/" property="twitter:url">
+    <meta content="webring" property="twitter:title">
+    <meta content="Minimal webring" property="twitter:description">
+    <meta content="https://wr.4b.cx/logo.png" property="twitter:image">
+    <link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180">
+    <link href="/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png">
+    <link href="/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png">
+    <link href="/site.webmanifest" rel="manifest">
+    <link href="https://wr.4b.cx/" rel="canonical">
+    <link rel="shortcut icon" href="https://wr.4b.cx/logo.png" type="image/x-icon">
+    <script type="application/ld+json">
+        {
+                "description":"Minimal webring",
+                "url":"https://wr.4b.cx/",
+                "@type":"WebSite",
+                "headline":"webring",
+                "name":"webring",
+                "author":{
+                    "@type":"Person",
+                    "name":"Ahmed M Alaa"
+                },
+                "@context":"https://schema.org"
+            }
+    </script>
+    <style>
+        html { height:100%; background:white; }
+        body { background:white; color:black; font-family:monospace; font-size:16px; line-height:1.4; margin:0; padding:4rem 0; min-height:100%; overflow-wrap:break-word; }
+        main { max-width:640px; margin:0 auto; padding:0 2rem; }
+        h1 { text-align:center }
+        li { display: list-item; width: 40%; float: left; margin: 0 5%; }
+        body[theme="dark"] { filter:invert(1); }
+        @media (prefers-color-scheme: dark) { body[theme="auto"] { filter:invert(1); } }
+    </style>
+</head>
+
+<body theme="auto">
+    <main>
+        <h1>webring</h1>
+    <hr />
+        <ul>
+            $( generate_list )
+        </ul>
+        <h2></h2>
+    </main>
+</body>
+
+</html>
+INDEX_PAGE

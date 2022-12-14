@@ -1,0 +1,9 @@
+image: alpine:latest
+pages:
+  script:
+    - ./wr
+  artifacts:
+    paths:
+      - public
+  only:
+    - pages

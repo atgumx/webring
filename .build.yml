@@ -7,7 +7,7 @@ environment:
 tasks:
 - build: |
     cd webring
-    ./run.sh
+    ./wr
 - package: |
     cd webring
     tar -C public -cvz . > ../site.tar.gz
