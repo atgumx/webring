@@ -3,7 +3,7 @@ oauth: pages.sr.ht/PAGES:RW
 packages:
 - hut
 environment:
-  site: a2.srht.site
+  site: wr.4b.cx
 tasks:
 - build: |
     cd webring
