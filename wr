@@ -69,6 +69,7 @@ cat << INDEX_PAGE > public/index.html
         nav a { display: block; text-align: center; }
         body[theme="dark"] { filter:invert(1); }
         @media (prefers-color-scheme: dark) { body[theme="auto"] { filter:invert(1); } }
+        @media (max-width:640px) { li { width: 90%;  } }
     </style>
 </head>
 
