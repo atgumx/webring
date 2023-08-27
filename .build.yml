@@ -1,0 +1,15 @@
+image: alpine/edge
+oauth: pages.sr.ht/PAGES:RW
+packages:
+- hut
+environment:
+  site: webring.gumx.cc
+sources:
+- https://git.sr.ht/~a2/webring
+tasks:
+- package: |
+    cd webring
+    ./wr
+    tar -C public -cvz . > ../site.tar.gz
+- upload: |
+    hut pages publish -d $site site.tar.gz
