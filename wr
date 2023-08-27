@@ -113,11 +113,13 @@ INDEX_PAGE_TOP
         . ${entry}
         entry_name="$( basename ${entry} )"
         [ ${count} -eq 1 ] && first_entry="${entry_name}" && prev_entry="${entry_name}"
-        mkdir -p "public/${entry_name}"
+        mkdir -p "public/${entry_name}" \
+            "public/${entry_name}/next" \
+            "public/${entry_name}/previous"
         printf "<html><meta http-equiv=\"Refresh\" content=\"0; url='%s'\" /></html>\n" "${url}" \
             > "public/${entry_name}/index.html"
-        cp "public/${entry_name}/index.html" "public/${prev_entry}/next.html"
-        cp "public/${prev_entry}/index.html" "public/${entry_name}/previous.html"
+        cp "public/${entry_name}/index.html" "public/${prev_entry}/next/index.html"
+        cp "public/${prev_entry}/index.html" "public/${entry_name}/previous/index.html"
         prev_entry="${entry_name}"
         [ -n "${author}" ] \
             && printf '            <li><a href="%s">%s</a> by %s</li>\n' \
@@ -126,8 +128,8 @@ INDEX_PAGE_TOP
                 "${url}" "${title}" >> public/index.html
         unset url title author
     done
-    cp "public/${first_entry}/index.html" "public/${entry_name}/next.html"
-    cp "public/${entry_name}/index.html" "public/${first_entry}/previous.html"
+    cp "public/${first_entry}/index.html" "public/${entry_name}/next/index.html"
+    cp "public/${entry_name}/index.html" "public/${first_entry}/previous/index.html"
 
     cat << INDEX_PAGE_BOTTOM >> public/index.html
         </ul>
