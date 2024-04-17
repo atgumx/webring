@@ -135,7 +135,7 @@ INDEX_PAGE_TOP
         </ul>
         <hr />
         <p>This is an attempt to replicate <a href="https://wiki.xxiivv.com/site/devine_lu_linvega.html">Devine Lu Linvega</a>'s <a href="https://webring.xxiivv.com/">webring</a> in a very minimal way, and with a lower technical bar.</p>
-        <p>To add your site to the webring, follow the instructions <a href="https://git.sr.ht/~a2/webring#host-your-own">here</a>. For issues, source code, documentation, visit the <a href="https://git.sr.ht/~a2/webring">project page on sourcehut</a></p>
+        <p>To add your site to the webring, follow the instructions <a href="https://git.sr.ht/~a2/webring#host-your-own">here</a>. For issues, source code, documentation, visit the <a href="https://sr.ht/~a2/webring/">project page on sourcehut</a></p>
         <p>This project is licensed under <a href="https://git.sr.ht/~a2/webring/tree/main/item/LICENSE">MIT license</a></p>
         <hr />
         <nav>

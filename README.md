@@ -8,7 +8,7 @@ This is an attempt to replicate [Devine Lu Linvega](https://wiki.xxiivv.com/site
 2. Add your site using `./wr add example.com "my cool website" "John Doe"` \
     Replace `example.com` with your actual website url, `my cool website` with your entry title, and optionally add your name
 3. Submit a patch by any of these methods
-    - Issuing a pull request from [GitHub](https://github.com/4bcx/webring) or [GitLab](https://gitlab.com/4bcx/webring)
+    - Issuing a pull request from [GitHub](https://github.com/atgumx/webring) or [GitLab](https://gitlab.com/atgumx/webring)
     - Sending a mail to the project's [mailing list](https://lists.sr.ht/~a2/webring)
     - Using [`git send-email`](https://git-send-email.io/)
 4. Add the ring links to your site, preferrably in the footer, for example
@@ -22,13 +22,14 @@ This is an attempt to replicate [Devine Lu Linvega](https://wiki.xxiivv.com/site
 
 ## Host your own
 
-1. Clone the project [repository](https://github.com/4bcx/webring), and add your remotes
+1. Clone the project [repository](https://git.sr.ht/~a2/webring), and add your remotes
 2. Run `rm -fr entries/* public` to delete old entries and build artifacts
 3. Add your entries and run `./wr` to check the output
 4. Upload your webring to a static site hosting provider, examples are available for
-    - GitHub Pages
-    - GitLab Pages
+    - [Sourcehut Pages](https://git.sr.ht/~a2/webring/tree/main/item/ci-examples/.build.yml)
+    - [GitHub Pages](https://git.sr.ht/~a2/webring/tree/main/item/ci-examples/.github)
+    - [GitLab Pages](https://git.sr.ht/~a2/webring/tree/main/item/ci-examples/.gitlab-ci.yml)
 
 ## License
 
-This project is licensed under [MIT license](https://raw.githubusercontent.com/4bcx/webring/main/LICENSE)
+This project is licensed under [MIT license](https://git.sr.ht/~a2/webring/tree/main/item/LICENSE)
